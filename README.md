@@ -1,1 +1,3 @@
 # Attendance-Authentication-using-QR-Code-
+
+Our Project takes a leap forward from the conventional attendance tracking mechanism to the new way of creating an integrated platform for professors to manage classes and attendance via a web portal, and for students to view schedules and mark attendance via a mobile app by scanning the QR code displayed by the Professor. It streamlines administrative tasks, ensuring efficient data synchronization and enhancing communication between professors and students. thereby revolutionizing the digital means to get a comprehensive overview of student’s academic progress.
