@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Attendance Tracker</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .table-container {
+            margin-top: 20px;
+        }
+        .chart-container {
+            width: 50%;
+            margin: 0 auto;
+        }
+        .statistics {
+            margin-top: 20px;
+        }
+        .statistics div {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="page-title" class="text-center my-4">Student Attendance Tracker</h1>
+
+        <!-- Student Selector -->
+        <div class="form-group">
+            <label for="studentSelect">Select Student:</label>
+            <select class="form-control" id="studentSelect">
+                <option value="Manikanta Nelluri">Manikanta Nelluri</option>
+                <option value="Dhruvita Challa">Dhruvita Challa</option>
+                <option value="Krishna babu Gali">Krishna babu Gali</option>
+                <option value="Satwik Chowdary">Satwik Chowdary</option>
+                <option value="Ajith keshav">Ajith keshav</option>
+                <option value="Sandeep Nirujogi">Sandeep Nirujogi</option>
+                <!-- Add more students as needed -->
+            </select>
+        </div>
+
+        <!-- Pie Chart -->
+        <div class="chart-container">
+            <canvas id="attendanceChart"></canvas>
+        </div>
+
+        <!-- Statistics -->
+        <div class="statistics">
+            <div id="totalClasses" class="font-weight-bold">Total Classes: 0</div>
+            <div id="presentClasses" class="text-success">Present: 0</div>
+            <div id="absentClasses" class="text-danger">Absent: 0</div>
+            <div id="lateClasses" class="text-warning">Late: 0</div>
+            <div id="attendancePercentage" class="font-weight-bold">Attendance Percentage: 0%</div>
+        </div>
+
+        <!-- Attendance Table -->
+        <div class="table-container">
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="attendance-table">
+                    <!-- Attendance data will be populated here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Function to get URL parameters
+        function getQueryParams() {
+            const params = {};
+            window.location.search.substring(1).split('&').forEach(param => {
+                const [key, value] = param.split('=');
+                params[key] = decodeURIComponent(value);
+            });
+            return params;
+        }
+
+        const params = getQueryParams();
+        const classId = params.class || '1';
+        document.getElementById('page-title').innerText = `Student Attendance Tracker - Class ${classId}`;
+
+        // Sample data for multiple students and more days
+        const attendanceData = {
+            'Manikanta Nelluri': [
+                { date: '2024-05-01', status: 'Present' },
+                { date: '2024-05-02', status: 'Absent' },
+                { date: '2024-05-03', status: 'Late' },
+                { date: '2024-05-04', status: 'Present' },
+                { date: '2024-05-05', status: 'Present' },
+                { date: '2024-05-06', status: 'Absent' },
+                { date: '2024-05-07', status: 'Present' },
+                { date: '2024-05-08', status: 'Present' },
+                { date: '2024-05-09', status: 'Late' },
+                { date: '2024-05-10', status: 'Present' },
+            ],
+            'Dhruvita Challa': [
+                { date: '2024-05-01', status: 'Absent' },
+                { date: '2024-05-02', status: 'Late' },
+                { date: '2024-05-03', status: 'Present' },
+                { date: '2024-05-04', status: 'Absent' },
+                { date: '2024-05-05', status: 'Absent' },
+                { date: '2024-05-06', status: 'Present' },
+                { date: '2024-05-07', status: 'Late' },
+                { date: '2024-05-08', status: 'Absent' },
+                { date: '2024-05-09', status: 'Present' },
+                { date: '2024-05-10', status: 'Present' },
+            ],
+            'Krishna babu Gali': [
+                { date: '2024-05-01', status: 'Present' },
+                { date: '2024-05-02', status: 'Absent' },
+                { date: '2024-05-03', status: 'Present' },
+                { date: '2024-05-04', status: 'Absent' },
+                { date: '2024-05-05', status: 'Present' },
+                { date: '2024-05-06', status: 'Late' },
+                { date: '2024-05-07', status: 'Present' },
+                { date: '2024-05-08', status: 'Absent' },
+                { date: '2024-05-09', status: 'Present' },
+                { date: '2024-05-10', status: 'Late' }
+            ],
+            'Satwik Chowdary': [
+                { date: '2024-05-01', status: 'Late' },
+                { date: '2024-05-02', status: 'Present' },
+                { date: '2024-05-03', status: 'Absent' },
+                { date: '2024-05-04', status: 'Present' },
+                { date: '2024-05-05', status: 'Late' },
+                { date: '2024-05-06', status: 'Present' },
+                { date: '2024-05-07', status: 'Absent' },
+                { date: '2024-05-08', status: 'Present' },
+                { date: '2024-05-09', status: 'Late' },
+                { date: '2024-05-10', status: 'Present' }
+            ],
+            'Ajith keshav': [
+                { date: '2024-05-01', status: 'Absent' },
+                { date: '2024-05-02', status: 'Present' },
+                { date: '2024-05-03', status: 'Present' },
+                { date: '2024-05-04', status: 'Late' },
+                { date: '2024-05-05', status: 'Absent' },
+                { date: '2024-05-06', status: 'Present' },
+                { date: '2024-05-07', status: 'Late' },
+                { date: '2024-05-08', status: 'Present' },
+                { date: '2024-05-09', status: 'Absent' },
+                { date: '2024-05-10', status: 'Present' }
+            ],
+            'Sandeep Nirujogi': [
+                { date: '2024-05-01', status: 'Late' },
+                { date: '2024-05-02', status: 'Present' },
+                { date: '2024-05-03', status: 'Absent' },
+                { date: '2024-05-04', status: 'Present' },
+                { date: '2024-05-05', status: 'Late' },
+                { date: '2024-05-06', status: 'Present' },
+                { date: '2024-05-07', status: 'Absent' },
+                { date: '2024-05-08', status: 'Present' },
+                { date: '2024-05-09', status: 'Late' },
+                { date: '2024-05-10', status: 'Present' }
+            ]
+        };
+            // Add more student data as needed
+
+        const attendanceTable = document.getElementById('attendance-table');
+        const statusCount = { Present: 0, Absent: 0, Late: 0 };
+
+        function updateAttendanceTable(studentName) {
+            // Clear previous table data
+            attendanceTable.innerHTML = '';
+            // Reset status count
+            statusCount.Present = 0;
+            statusCount.Absent = 0;
+            statusCount.Late = 0;
+
+            // Populate table and count statuses for selected student
+            attendanceData[studentName].forEach(record => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${record.date}</td><td>${record.status}</td>`;
+                attendanceTable.appendChild(row);
+                statusCount[record.status]++;
+            });
+
+            const totalClasses = attendanceData[studentName].length;
+            const attendancePercentage = ((statusCount.Present / totalClasses) * 100).toFixed(2);
+
+            document.getElementById('totalClasses').textContent = `Total Classes: ${totalClasses}`;
+            document.getElementById('presentClasses').textContent = `Present: ${statusCount.Present}`;
+            document.getElementById('absentClasses').textContent = `Absent: ${statusCount.Absent}`;
+            document.getElementById('lateClasses').textContent = `Late: ${statusCount.Late}`;
+            document.getElementById('attendancePercentage').textContent = `Attendance Percentage: ${attendancePercentage}%`;
+
+            // Update pie chart
+            attendanceChart.data.datasets[0].data = [statusCount.Present, statusCount.Absent, statusCount.Late];
+            attendanceChart.update();
+        }
+
+        // Initialize data for the first student
+        document.addEventListener('DOMContentLoaded', () => {
+            updateAttendanceTable('Manikanta Nelluri');
+        });
+
+        // Update data when the selected student changes
+        document.getElementById('studentSelect').addEventListener('change', (event) => {
+            updateAttendanceTable(event.target.value);
+        });
+
+        // Create pie chart
+        const ctx = document.getElementById('attendanceChart').getContext('2d');
+        const attendanceChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Present', 'Absent', 'Late'],
+                datasets: [{
+                    data: [0, 0, 0],
+                    backgroundColor: ['#28a745', '#dc3545', '#ffc107']
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Attendance Breakdown'
+                },
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    </script>
+</body>
+</html>

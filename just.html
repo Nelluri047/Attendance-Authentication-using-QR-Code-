@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Generator</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('background.JPG '); /* Replace 'background.png' with your transparent image file */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            padding: 0;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+            max-width: 500px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="mb-4">QR Generator</h2>
+        <div class="form-group">
+            <label for="courseSelect">Select Course:</label>
+            <select class="form-control" id="courseSelect">
+                <option value="">--</option>
+                <option value="BIG DATA">BIG DATA</option>
+                <option value="GRAD PROJECT 1">GRAD PROJECT 1</option>
+                <option value="GRAD PROJECT 2">GRAD PROJECT 2</option>
+                <option value="PATTERNS">PATTERNS</option>
+                <option value="JAVA">JAVA</option>
+                <option value="GENERATIVE AI">GENERATIVE AI</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="timeSlotSelect">Select Time Slot:</label>
+            <select class="form-control" id="timeSlotSelect">
+                <option value="">--</option>
+                <option value="9:00-9:50">9:00-9:50</option>
+                <option value="10:00-10:50">10:00-10:50</option>
+                <option value="11:00-11:50">11:00-11:50</option>
+                <option value="12:00-12:50">12:00-12:50</option>
+                <option value="1:00-1:50">1:00-1:50</option>
+                <option value="2:00-2:50">2:00-2:50</option>
+            </select>
+        </div>
+        <button class="btn btn-primary btn-block mt-4" onclick="generateQR()">Generate QR Code</button>
+    </div>
+
+    <script>
+        function generateQR() {
+            let courseSelect = document.getElementById("courseSelect");
+            let timeSlotSelect = document.getElementById("timeSlotSelect");
+            let course = courseSelect.value;
+            let timeSlot = timeSlotSelect.value;
+
+            let qrData = "Course: " + course + ", Time Slot: " + timeSlot;
+
+            if (course.trim().length > 0 && timeSlot.trim().length > 0) {
+                localStorage.setItem('qrData', qrData);
+                window.location.href = "generate.html"; // Redirect to display page
+            } else {
+                // Handle empty selection
+                alert("Please select all options");
+            }
+        }
+    </script>
+</body>
+</html>
