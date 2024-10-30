@@ -63,4 +63,12 @@ Title: View Attendance: FR#9
 
 ### Installations
 install *NodeJS*, *MariaDB*, *Android Studio*
+After installing NodeJS and MariaDB navigate to the project directory. we need to run the following commands to install the project dependencies.
+npm install
+npm run update-db
+npm run dev
+
+We are still working on creating the Android app for student login and marking ones artendance.
+
+
 
