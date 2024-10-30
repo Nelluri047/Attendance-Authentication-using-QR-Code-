@@ -61,3 +61,6 @@ Title: View Attendance: FR#9
 •	Priority: 1
 •	Dependency:  Dependent on database. (FR#1)
 
+### Installations
+install *NodeJS*, *MariaDB*, *Android Studio*
+
