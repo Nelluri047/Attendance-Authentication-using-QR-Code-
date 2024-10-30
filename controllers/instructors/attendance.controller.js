@@ -35,7 +35,7 @@ const schema = {
       errorMessage: "Date is required.",
     },
   },
-  required: ["status", "id"],
+  required: ["status", "id","date"],
   additionalProperties: false,
 };
 
