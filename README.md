@@ -68,7 +68,7 @@ npm install
 npm run update-db
 npm run dev
 
-We are still working on creating the Android app for student login and marking ones artendance.
+We are still working on creating the Android app for student login and marking ones attendance.
 
 
 
