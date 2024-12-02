@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Attendance App</string>
+    <string name="login_message">Enter your email and password to login.</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="please_wait">Please wait…</string>
+    <string name="no_internet_connection">Unable to reach Attendance APP servers. Please try again later.</string>
+    <string name="logged_in">Login successful.</string>
+    <string name="please_fill_all_fields">Please fill all fields</string>
+    <string name="logout">Logout</string>
+    <string name="confirmation">Confirmation</string>
+    <string name="logout_confirmation">Are you sure you want to logout?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="scan">Scan</string>
+    <string name="enrolled_courses">Enrolled Courses</string>
+    <string name="no_enrolled_courses_found">No enrolled courses found.</string>
+    <string name="instructor">Instructor: %s</string>
+    <string name="class_timing">Timings: %s - %s</string>
+    <string name="course_name">%s - %s</string>
+    <string name="scan_qr_code">Scan QR Code to mark your attendance.</string>
+    <string name="ok">OK</string>
+    <string name="no_attendance_records_found">No attendance records found.</string>
+    <string name="refresh">Refresh</string>
+</resources>
